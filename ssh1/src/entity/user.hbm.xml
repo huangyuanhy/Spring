@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+ 
+ <hibernate-mapping>
+ 	<class name="entity.User" table="user"><!-- 实体和类一一对应 -->
+ 		<id name="uid" column="uid"><!-- 属性和表字段对应 -->
+ 			<generator class="native"></generator><!-- 主键自增长 -->
+ 		</id>
+ 		
+ 		<!-- 配置其他属性 -->
+ 		<property name="username" column="username"></property>
+ 		<property name="password" column="password"></property>
+ 		<property name="address" column="address"></property>
+ 	</class>
+ 	
+ </hibernate-mapping>

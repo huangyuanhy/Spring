@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<beans xmlns="http://www.springframework.org/schema/beans"        
+    xmlns:mvc="http://www.springframework.org/schema/mvc"     
+    xmlns:tx="http://www.springframework.org/schema/tx"  
+    xmlns:aop="http://www.springframework.org/schema/aop"  
+    xmlns:context="http://www.springframework.org/schema/context"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"              
+    xsi:schemaLocation="                                               
+            http://www.springframework.org/schema/beans    
+            http://www.springframework.org/schema/beans/spring-beans.xsd    
+            http://www.springframework.org/schema/context     
+            http://www.springframework.org/schema/context/spring-context.xsd    
+            http://www.springframework.org/schema/mvc    
+            http://www.springframework.org/schema/mvc/spring-mvc.xsd  
+            http://www.springframework.org/schema/tx   
+            http://www.springframework.org/schema/tx/spring-tx.xsd  
+            http://www.springframework.org/schema/aop  
+            http://www.springframework.org/schema/aop/spring-aop.xsd "  
+    default-autowire="byName">
+
+
+	<!-- 开启aop注解扫描 -->
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+    <!-- 开启ioc注解扫描 -->
+       <context:component-scan base-package="ioc"></context:component-scan>
+   
+<!-- 配置c3p0连接池 -->
+  <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+    <property name="password" value="925925"></property>
+    <property name="user" value="root"></property>
+    <property name="driverClass" value="com.mysql.jdbc.Driver"></property>
+    <property name="jdbcUrl" value="jdbc:mysql:///ssh1"></property>
+  </bean>
+  <!-- 配置事务管理器 -->
+  <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+  	<property name="sessionFactory" ref="sessionFactory"></property>
+  </bean>
+  <!-- 开启事务注解 -->
+  <tx:annotation-driven transaction-manager="transactionManager"/>
+  
+  
+  <!-- 配置action对象 -->
+  <bean id="userAction" class="action.UserAction" scope="prototype">
+  	<!-- 注入service对  -->
+  	<property name="userService" ref="userService"></property>
+  
+  </bean>
+  
+  <!-- 配置service对象 -->
+  <bean id="userService" class="service.UserService">
+  		<!-- 注入dao 接口=实现类对象 -->
+  		<property name="userDao" ref="userDaoImp"></property>
+  </bean>
+  		
+  <!-- 创建实现类对象 -->
+  <bean id="userDaoImp" class="dao.UserDaoImp">
+  	<property name="hibernateTemplate" ref="hibernateTemplate"></property>
+  </bean>
+  
+  <!-- 创建hibernatetemplate 对象 -->
+  <bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">
+  	<!-- 注入sessionFactory -->
+  	<property name="sessionFactory" ref="sessionFactory"></property>
+  </bean> 
+  
+  <!-- 配置sessionfactory对象 -->
+  <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+  	<!-- 注入dataSource -->
+  	<property name="dataSource" ref="dataSource"></property>
+  	
+  	<!-- 配置hibernate核心文件               这句配置相当于如下配置-->
+  	<property name="configLocations" value="classpath:hibernate.cfg.xml"></property>
+  
+<!--   	
+  	配置hibernate基本信息
+  	<property name="hibernateProperties">
+  		<props>
+  			<prop key="hibernate.show_sql">true</prop>
+  			<prop key="hibernate.format_sql">true</prop>
+  			<prop key="hibernate.hbm2ssl.auto">update</prop>
+  			<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
+  		</props>
+  	</property>
+  	
+  	配置映射文件引入
+  	<property name="mappingResources">
+  		<list>
+  			<value>entity/user.hbm.xml</value>
+  		</list>
+  	</property>
+  	
+  	
+  	 -->
+  	
+  	
+  	
+  	
+  	
+  </bean>
+</beans>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<beans xmlns="http://www.springframework.org/schema/beans"        
+    xmlns:mvc="http://www.springframework.org/schema/mvc"     
+    xmlns:tx="http://www.springframework.org/schema/tx"  
+    xmlns:aop="http://www.springframework.org/schema/aop"  
+    xmlns:context="http://www.springframework.org/schema/context"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"              
+    xsi:schemaLocation="                                               
+            http://www.springframework.org/schema/beans    
+            http://www.springframework.org/schema/beans/spring-beans.xsd    
+            http://www.springframework.org/schema/context     
+            http://www.springframework.org/schema/context/spring-context.xsd    
+            http://www.springframework.org/schema/mvc    
+            http://www.springframework.org/schema/mvc/spring-mvc.xsd  
+            http://www.springframework.org/schema/tx   
+            http://www.springframework.org/schema/tx/spring-tx.xsd  
+            http://www.springframework.org/schema/aop  
+            http://www.springframework.org/schema/aop/spring-aop.xsd "  
+   default-autowire="byName">
+  <!-- 配置handler  -->
+  <bean id="itemController" name="/queryItems.action" class="controller.ItemController"></bean>
+  <!-- 配置handler  对应的是      第二种处理器适配器 自己写的处理器必须实现HttpRequestHandler接口-->
+    <bean id="itemController2" class="controller.ItemController2"></bean>
+  
+  
+     <!-- 处理器映射器 将bean的name 作为URL作为路径进行查找  DispatcherServlet.properties文件中默认的-->
+  <bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"></bean>
+  <!-- 简单URL映射  第二种映射器  计中配置url-->
+  <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+  	<property name="mappings">
+  		<props>
+  		<!-- 配置多个URL映射 -->
+  			<prop key="/items1.action">itemController</prop>
+  			<prop key="/items2.action">itemController</prop>
+  			<prop key="/items.action">itemController2</prop>
+  		</props>
+  	</property>
+  </bean>
+  
+  <!-- 处理器适配器  自己写的处理器必须实现Controller接口    下面两种都是DispatcherServlet.properties文件中默认的-->
+  <bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"></bean>
+	<!-- 第二种处理器适配器 自己写的处理器必须实现HttpRequestHandler接口-->
+	<bean class="org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter"></bean>
+  <!-- jsp视图解析器  默认配置的-->
+  <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+  	<property name="prefix" value="/WEB-INF/jsp/"></property>
+  	<property name="sufffix" value=".jsp/"></property>
+  
+  </bean>
+  <!-- 下面是注解的方式 十分简单 -->
+  
+  <!-- 加载Handler 可以单个配置 也可以批量 -->
+  <!-- <bean class="controller.ItemController3"></bean> -->
+  <context:component-scan base-package="controller"></context:component-scan>
+  
+    <!-- 注解驱动 可以代替下面两行配置 -->
+  <!-- <mvc:annotation-driven></mvc:annotation-driven> -->
+  <!-- 注解映射器 -->
+  <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"></bean>
+  <!-- 注解的适配器 -->
+  <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"></bean>
+  </beans>
+    
+    
+    
+   
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

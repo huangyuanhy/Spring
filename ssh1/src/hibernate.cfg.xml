@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+          "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+          <!-- "dtd/hibernate-configuration-3.0.dtd"在无法连接网络或者网络不稳定的情况下可以将文件下载到本地啊，
+          	在自己的项目目录下建一个文件夹，如dtd，用来保存该文件
+			同时上面两个文件中的相应代码替换为： -->
+			
+			
+	<!-- hibernate在运行过程中，只会加载核心配置文件，其他文件不会加载 -->
+  <hibernate-configuration>
+  	
+  	<session-factory>
+  			<!-- session绑定threadLoacl，实现多线程访问 -->
+
+<!-- 		
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		配置数据库url
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/hibernate</property>
+		配置用户名
+		<property name="hibernate.connection.username">root</property>
+		配置密码
+		<property name="hibernate.connection.password">925925</property> -->
+		
+		<!-- 整合ssh框架中绝对不能有这句话  切记                     -->
+	<!-- 	<property name="hibernate.current_session_context_class">thread</property> -->
+		
+		
+		
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+		<!-- 是否输出Hibernate生成的ＳＱＬ语句，开启为ｔｒｕｅ -->
+		<property name="show_sql">true</property>
+		<!-- ddl语句自动建表 -->
+		<property name="hbm2ddl.auto">update</property>
+		<!-- 是否对输出SQL进行格式化 -->
+		<property name="format_sql">true</property>
+		
+		
+		<!-- 注册ORM实体类映射文件 -->
+		<mapping resource="entity/user.hbm.xml" />
+
+		
+
+		
+<!-- 		//连接池的配置
+		<property name="hibernate.connection.provider_class">
+		org.hibernate.service.jdbc.connections.internal.C3P0ConnectionProvider
+		</property>
+		
+		//C3P0随机准备好的最少的JDBC连接数量
+		<property name="hibernate.c3p0.min_size">5</property>
+		
+		//连接池的最大JDBC连接数量
+		<property name="hibernate.c3p0.max_size">20</property>
+		
+		//配置超时周期，在他之后，休闲连接将从连接池中移除
+		<property name="hibernate.c3p0.timeout">300</property>
+		
+		//最多高速缓存100个预编译语句，该属性是使Hibernate获得良好性能的要素
+		<property name="hibernate.c3p0.max_statements">100</property>
+		
+		连接池被自动验证前，以秒为单位的闲置时间
+		<property name="hibernate.c3p0.idle_test_period">3000</property>
+		
+		  -->
+  	</session-factory>
+  </hibernate-configuration>        
